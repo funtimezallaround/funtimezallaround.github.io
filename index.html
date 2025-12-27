@@ -1,7 +1,456 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daniel Pace | Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #00d2ff;
+            --secondary: #3a7bd5;
+            --bg-dark: #0f172a;
+            --bg-card: rgba(30, 41, 59, 0.7);
+            --text-light: #f8fafc;
+            --text-gray: #94a3b8;
+            --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Background Animation */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 10% 20%, rgba(0, 210, 255, 0.1) 0%, transparent 20%),
+                        radial-gradient(circle at 90% 80%, rgba(58, 123, 213, 0.15) 0%, transparent 20%);
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            background: rgba(15, 23, 42, 0.8);
+            z-index: 1000;
+            border-bottom: var(--glass-border);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 2rem;
+            flex-direction: column;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero h2 {
+            font-size: 1.5rem;
+            color: var(--text-gray);
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            padding: 0.8rem 2rem;
+            background: linear-gradient(45deg, var(--secondary), var(--primary));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 210, 255, 0.3);
+        }
+
+        /* Sections General */
+        section {
+            padding: 5rem 10%;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--primary);
+            margin: 10px auto;
+            border-radius: 2px;
+        }
+
+        /* About / Hobbies */
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 15px;
+            border: var(--glass-border);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+
+        .card i {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        /* Experience Timeline */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            background: var(--secondary);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -1px;
+        }
+
+        .container {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+        }
+
+        .container::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            right: -10px;
+            background-color: var(--bg-dark);
+            border: 4px solid var(--primary);
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .left { left: 0; }
+        .right { left: 50%; }
+        .left::before { content: " "; height: 0; position: absolute; top: 22px; width: 0; z-index: 1; right: 30px; border: medium solid white; border-width: 10px 0 10px 10px; border-color: transparent transparent transparent var(--bg-card); }
+        .right::before { content: " "; height: 0; position: absolute; top: 22px; width: 0; z-index: 1; left: 30px; border: medium solid white; border-width: 10px 10px 10px 0; border-color: transparent var(--bg-card) transparent transparent; }
+        .right::after { left: -10px; }
+
+        .content {
+            padding: 20px;
+            background: var(--bg-card);
+            position: relative;
+            border-radius: 6px;
+            border: var(--glass-border);
+        }
+
+        /* Skills */
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .skill-tag {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            border: 1px solid var(--secondary);
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+
+        .skill-tag:hover {
+            background: var(--secondary);
+            color: white;
+        }
+
+        /* Awards */
+        .awards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem;
+            background: rgba(15, 17, 42, 0.9);
+            border-top: var(--glass-border);
+        }
+
+        .social-links {
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: var(--text-light);
+            font-size: 1.5rem;
+            margin: 0 10px;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--primary);
+        }
+
+        /* Media Queries */
+        @media screen and (max-width: 600px) {
+            .timeline::after { left: 31px; }
+            .container { width: 100%; padding-left: 70px; padding-right: 25px; }
+            .container::before { left: 60px; border: medium solid white; border-width: 10px 10px 10px 0; border-color: transparent var(--bg-card) transparent transparent; }
+            .left::after, .right::after { left: 21px; }
+            .right { left: 0%; }
+            .hero h1 { font-size: 2.5rem; }
+            .nav-links { display: none; } /* Simplified for standalone */
+        }
+    </style>
+</head>
 <body>
-    <h1>Work in Progress</h1>
-    <p>Official website of Daniel Pace coming soon.</p>
+
+    <div class="bg-animation"></div>
+
+    <nav>
+        <div class="logo">DP.</div>
+        <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#education">Education</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <header class="hero">
+        <div style="width: 150px; height: 150px; background: linear-gradient(135deg, #00d2ff, #3a7bd5); border-radius: 50%; margin-bottom: 2rem; display: flex; align-items: center; justify-content: center; font-size: 3rem; font-weight: bold;">DP</div>
+        <h1>Daniel Pace</h1>
+        <h2>IT Specialist & AI Student</h2>
+        <p style="max-width: 600px; margin: 0 auto 2rem; color: var(--text-gray);">
+            B.Sc. IT (Honours) Artificial Intelligence Student based in Malta. Passionate about programming, problem-solving, and continuous learning.
+        </p>
+        <div style="display: flex; gap: 1rem;">
+            <a href="#contact" class="btn">Contact Me</a>
+            <a href="https://github.com" target="_blank" class="btn" style="background: transparent; border: 2px solid var(--primary);">GitHub</a>
+        </div>
+    </header>
+
+    <section id="about">
+        <h2 class="section-title">About Me & Hobbies</h2>
+        <div class="about-grid">
+            <div class="card">
+                <i class="fas fa-laptop-code"></i>
+                <h3>Programming</h3>
+                <p>An avid passion. I enjoy solving problems and creating unique projects in Java, Python, and C++. [cite_start]I've competed in CodeSprint (6th Place)[cite: 94].</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-language"></i>
+                <h3>Languages</h3>
+                <p>Native English & Maltese. Proficient in French (B2/C1) with internship experience in France. [cite_start]Learning Japanese for 3+ years[cite: 86].</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-water"></i>
+                <h3>Swimming</h3>
+                <p>Competitive swimmer and fastest sprinter in the SW Elite group. [cite_start]Currently teaching others as a Swimming Instructor[cite: 89].</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience">
+        <h2 class="section-title">Work Experience</h2>
+        <div class="timeline">
+            <div class="container left">
+                <div class="content">
+                    <h3>Swimming Instructor</h3>
+                    <h4 style="color: var(--primary);">Swimming Workshop</h4>
+                    <small>April 2024 - Current</small>
+                    <p style="margin-top: 10px;">Creating engaging lesson plans and teaching children of different ages/capabilities. [cite_start]Focus on freestyle, breaststroke, backstroke, and butterfly[cite: 36, 40, 45].</p>
+                </div>
+            </div>
+            <div class="container right">
+                <div class="content">
+                    <h3>IT Intern</h3>
+                    <h4 style="color: var(--primary);">Ministry for the Environment</h4>
+                    <small>July 2023 - Sept 2023</small>
+                    <p style="margin-top: 10px;">Maintained hardware, upgraded laptops, and assisted in setting up new servers. [cite_start]Managed inventory and cable organization[cite: 46, 50, 51].</p>
+                </div>
+            </div>
+            <div class="container left">
+                <div class="content">
+                    <h3>Programme Facilitator</h3>
+                    <h4 style="color: var(--primary);">JA Malta</h4>
+                    <small>July 2022 - Aug 2022</small>
+                    [cite_start]<p style="margin-top: 10px;">Delivered lessons on communities, careers, and taxation fundamentals to children aged 7-9[cite: 53, 56].</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="education">
+        <h2 class="section-title">Education</h2>
+        <div class="about-grid">
+            <div class="card">
+                <h3>B.Sc. IT (Artificial Intelligence)</h3>
+                <p><strong>University of Malta</strong> | 2023 - Current</p>
+                [cite_start]<p>Focusing on AI technologies and advanced computing[cite: 8, 9].</p>
+            </div>
+            <div class="card">
+                <h3>CIFC Internship (French)</h3>
+                <p><strong>AMICIF, La Baule, France</strong> | July 2024</p>
+                <p>Intensive French language and culture program. [cite_start]Included acting, creating skits, and public speaking in French[cite: 12, 13, 21].</p>
+            </div>
+            <div class="card">
+                <h3>Sixth Form</h3>
+                <p><strong>St. Martin's College</strong> | 2021 - 2023</p>
+                <p>Grade A in A-Level Pure Mathematics and Computing. [cite_start]Grade A in Intermediate French, Marketing, and Environmental Science[cite: 22, 26].</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" style="background: rgba(0,0,0,0.2);">
+        <h2 class="section-title">Technical Skills</h2>
+        <div class="skills-container">
+            <span class="skill-tag">Java</span>
+            <span class="skill-tag">Python</span>
+            <span class="skill-tag">C / C++</span>
+            <span class="skill-tag">HTML / CSS</span>
+            <span class="skill-tag">JavaScript</span>
+            <span class="skill-tag">R</span>
+            <span class="skill-tag">Arduino</span>
+            <span class="skill-tag">Hardware Maintenance</span>
+        </div>
+        
+        <h2 class="section-title" style="margin-top: 3rem;">Languages</h2>
+        <div class="skills-container">
+            <span class="skill-tag">English (Native)</span>
+            <span class="skill-tag">Maltese (Native)</span>
+            <span class="skill-tag">French (B2/C1)</span>
+            <span class="skill-tag">Japanese (Intermediate)</span>
+            <span class="skill-tag">Italian (Basic)</span>
+        </div>
+    </section>
+
+    <section id="awards">
+        <h2 class="section-title">Honours & Awards</h2>
+        <div class="awards-grid">
+            <div class="card" style="text-align: center;">
+                <i class="fas fa-trophy"></i>
+                <h3>CodeSprint Finals</h3>
+                [cite_start]<p>6th Place (2020) - ICE Malta programming competition[cite: 69, 94].</p>
+            </div>
+            <div class="card" style="text-align: center;">
+                <i class="fas fa-medal"></i>
+                <h3>1st Runner Up</h3>
+                [cite_start]<p>Company Programme (2022) - Organized by JA Malta[cite: 72].</p>
+            </div>
+            <div class="card" style="text-align: center;">
+                <i class="fas fa-leaf"></i>
+                <h3>Green Entrepreneurship Award</h3>
+                [cite_start]<p>JA Malta (2022) - For embodying green entrepreneurship principles[cite: 77].</p>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <h2 style="margin-bottom: 1rem;">Get In Touch</h2>
+        <p>Currently open for new opportunities.</p>
+        <div style="margin: 2rem 0; font-size: 1.1rem;">
+            <p><i class="fas fa-envelope" style="color: var(--primary);"></i> danielpace.mlt@gmail.com</p>
+            <p><i class="fas fa-phone" style="color: var(--primary); margin-top: 10px;"></i> (+356) 99535700</p>
+            <p><i class="fas fa-map-marker-alt" style="color: var(--primary); margin-top: 10px;"></i> San Gwann, Malta</p>
+        </div>
+        <div class="social-links">
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-github"></i></a>
+            <a href="mailto:danielpace.mlt@gmail.com"><i class="fas fa-envelope"></i></a>
+        </div>
+        <p style="margin-top: 3rem; font-size: 0.8rem; color: var(--text-gray);">© 2025 Daniel Pace. All rights reserved.</p>
+    </footer>
+
 </body>
 </html>
