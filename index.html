@@ -13,14 +13,27 @@
     
     <style>
         :root {
-            /* Earthy Palette */
+            /* Earthy Palette - Dark (Default) */
             --primary: #d4a373;      /* Tan / Wood color */
             --secondary: #606c38;    /* Olive / Sage Green */
             --bg-dark: #1a1c1a;      /* Deep Peat / Dark Charcoal */
             --bg-card: rgba(44, 48, 44, 0.75); /* Glassy Green-Black */
+            --bg-card-hover: rgba(60, 65, 60, 0.8);
             --text-light: #fefae0;   /* Cream / Off-white */
             --text-gray: #b7b7a4;    /* Muted Sage Gray */
             --glass-border: 1px solid rgba(212, 163, 115, 0.15);
+            --nav-bg: rgba(26, 28, 26, 0.95);
+        }
+
+        /* Light Mode Palette */
+        [data-theme="light"] {
+            --bg-dark: #fefae0;
+            --bg-card: rgba(233, 237, 201, 0.8);
+            --bg-card-hover: rgba(212, 219, 163, 0.9);
+            --text-light: #283618;
+            --text-gray: #606c38;
+            --nav-bg: rgba(254, 250, 224, 0.95);
+            --glass-border: 1px solid rgba(96, 108, 56, 0.2);
         }
 
         * {
@@ -36,6 +49,7 @@
             color: var(--text-light);
             line-height: 1.7;
             overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         h1, h2, h3, .logo {
@@ -63,20 +77,27 @@
             position: fixed;
             top: 0;
             width: 100%;
-            padding: 1.5rem 5%;
+            padding: 1rem 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
             backdrop-filter: blur(12px);
-            background: rgba(26, 28, 26, 0.95);
+            background: var(--nav-bg);
             z-index: 1000;
             border-bottom: 1px solid rgba(255,255,255,0.05);
+            transition: background 0.3s ease;
         }
 
         .logo {
             font-size: 1.5rem;
             color: var(--primary);
             letter-spacing: 1px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
         }
 
         .nav-links {
@@ -100,6 +121,56 @@
         .nav-links a:hover {
             color: var(--primary);
         }
+
+        /* Toggle Switches Styling */
+        .toggles-container {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .pill-switch {
+            position: relative;
+            width: 54px;
+            height: 26px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 50px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6px;
+            border: 1px solid var(--primary);
+            user-select: none;
+        }
+
+        .pill-slider {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: var(--primary);
+            border-radius: 50%;
+            left: 2px;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1;
+        }
+
+        /* Toggle States */
+        .active-fr .pill-slider, .active-light .pill-slider {
+            transform: translateX(28px);
+        }
+
+        .pill-switch span, .pill-switch i {
+            font-size: 0.65rem;
+            font-weight: 800;
+            z-index: 2;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .theme-pill i { font-size: 0.8rem; }
+        .sun-icon { color: #f1c40f; }
+        .moon-icon { color: #fefae0; }
 
         /* Hero Section */
         .hero {
@@ -142,7 +213,7 @@
         .btn {
             padding: 1rem 2.5rem;
             background: var(--primary);
-            color: var(--bg-dark);
+            color: #1a1c1a;
             border: none;
             border-radius: 2px;
             font-family: 'Montserrat', sans-serif;
@@ -205,13 +276,13 @@
             padding: 2.5rem;
             border-radius: 4px;
             border: var(--glass-border);
-            transition: transform 0.3s, border-color 0.3s;
+            transition: transform 0.3s, border-color 0.3s, background 0.3s;
         }
 
         .card:hover {
             transform: translateY(-5px);
             border-color: var(--primary);
-            background: rgba(60, 65, 60, 0.8);
+            background: var(--bg-card-hover);
         }
 
         .card i {
@@ -277,6 +348,7 @@
             position: relative;
             border-radius: 4px;
             border: var(--glass-border);
+            transition: background 0.3s ease;
         }
         
         .content small {
@@ -339,6 +411,11 @@
         }
 
         /* Media Queries */
+        @media screen and (max-width: 992px) {
+            .nav-right { flex-direction: column-reverse; gap: 1rem; align-items: flex-end; }
+            .nav-links { display: none; }
+        }
+
         @media screen and (max-width: 768px) {
             .hero h1 { font-size: 2.8rem; }
             .timeline::after { left: 31px; }
@@ -346,75 +423,95 @@
             .container::before { left: 60px; border: medium solid white; border-width: 10px 10px 10px 0; border-color: transparent var(--bg-card) transparent transparent; }
             .left::after, .right::after { left: 21px; }
             .right { left: 0%; }
-            .nav-links { display: none; }
         }
     </style>
 </head>
-<body>
+<body data-theme="dark">
 
     <div class="bg-animation"></div>
 
     <nav>
         <div class="logo">Daniel Pace.</div>
-        <ul class="nav-links">
-            <li><a href="#about">About</a></li>
-            <li><a href="#experience">Experience</a></li>
-            <li><a href="#education">Education</a></li>
-            <li><a href="#skills">Skills</a></li>
-            <li><a href="#contact">Contact</a></li>
-            <li><a href="Daniel Pace CV 2025.pdf" target="_blank" style="color: var(--primary); border: 1px solid var(--primary); padding: 5px 10px; border-radius: 2px;">View CV</a></li>
-        </ul>
+        <div class="nav-right">
+            <ul class="nav-links">
+                <li><a href="#about" data-en="About" data-fr="À propos">About</a></li>
+                <li><a href="#experience" data-en="Experience" data-fr="Expérience">Experience</a></li>
+                <li><a href="#education" data-en="Education" data-fr="Éducation">Education</a></li>
+                <li><a href="#skills" data-en="Skills" data-fr="Compétences">Skills</a></li>
+                <li><a href="#contact" data-en="Contact" data-fr="Contact">Contact</a></li>
+                <li><a href="Daniel%20Pace%20CV%202025.pdf" target="_blank" style="color: var(--primary); border: 1px solid var(--primary); padding: 5px 10px; border-radius: 2px;">CV</a></li>
+            </ul>
+
+            <div class="toggles-container">
+                <!-- Language Switcher -->
+                <div id="langToggle" class="pill-switch lang-pill" title="Toggle Language">
+                    <div class="pill-slider"></div>
+                    <span class="en-label">EN</span>
+                    <span class="fr-label">FR</span>
+                </div>
+                <!-- Theme Switcher -->
+                <div id="themeToggle" class="pill-switch theme-pill" title="Toggle Theme">
+                    <div class="pill-slider"></div>
+                    <i class="fas fa-moon moon-icon"></i>
+                    <i class="fas fa-sun sun-icon"></i>
+                </div>
+            </div>
+        </div>
     </nav>
 
     <!-- Hero Section -->
     <header class="hero">
-        <img src="Gemini_Generated_Image_56knxu56knxu56kn_square.PNG" alt="Daniel Pace" class="hero-avatar">
+        <img src="image_562be8.png" alt="Daniel Pace" class="hero-avatar">
         <h1>Daniel Pace</h1>
-        <h2>Research Support Assistant & AI Student</h2>
+        <h2 data-en="Research Support Assistant & AI Student" data-fr="Assistant de Recherche & Étudiant en IA">Research Support Assistant & AI Student</h2>
         <p style="max-width: 600px; margin: 0 auto 2.5rem; color: var(--text-gray); font-size: 1.1rem; line-height: 1.6;">
-            B.Sc. IT (Honours) Artificial Intelligence Student. <br>
-            <span style="font-style: italic; display: block; margin-top: 10px;">"The only way of discovering the limits of the possible is to venture a little way past them into the impossible."</span>
+            <span data-en="B.Sc. IT (Honours) Artificial Intelligence Student." data-fr="Étudiant en B.Sc. Informatique (IA Honours).">B.Sc. IT (Honours) Artificial Intelligence Student.</span> <br>
+            <span style="font-style: italic; display: block; margin-top: 10px;" data-en='"The only way of discovering the limits of the possible is to venture a little way past them into the impossible."' data-fr='"Le seul moyen de découvrir les limites du possible est d’aller un peu plus loin dans l’impossible."'>"The only way of discovering the limits of the possible is to venture a little way past them into the impossible."</span>
         </p>
         <div style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;">
-            <a href="#contact" class="btn">Contact Me</a>
-            <a href="Daniel Pace CV 2025.pdf" target="_blank" class="btn btn-outline"><i class="fas fa-file-alt" style="margin-right: 8px;"></i>Download CV</a>
-            <a href="https://github.com/funtimezallaround" target="_blank" class="btn btn-outline"><i class="fab fa-github" style="margin-right: 8px;"></i>GitHub</a>
+            <a href="#contact" class="btn" data-en="Contact Me" data-fr="Contactez-moi">Contact Me</a>
+            <a href="Daniel%20Pace%20CV%202025.pdf" target="_blank" download="Daniel_Pace_CV_2025.pdf" class="btn btn-outline">
+                <i class="fas fa-file-alt" style="margin-right: 8px;"></i><span data-en="Download CV" data-fr="Télécharger CV">Download CV</span>
+            </a>
+            <a href="https://github.com/funtimezallaround" target="_blank" class="btn btn-outline">
+                <i class="fab fa-github" style="margin-right: 8px;"></i>GitHub
+            </a>
         </div>
     </header>
 
     <!-- About / Hobbies -->
     <section id="about">
-        <h2 class="section-title"><span>About Me</span></h2>
+        <h2 class="section-title"><span data-en="About Me" data-fr="À Propos">About Me</span></h2>
         <div class="about-grid">
             <div class="card">
                 <i class="fas fa-code"></i>
-                <h3>Programming</h3>
-                <p>Passionately solving complex problems. Experienced in Java, Python, and C++. Competed in CodeSprint (6th Place) and constantly refining my technical expertise.</p>
+                <h3 data-en="Programming" data-fr="Programmation">Programming</h3>
+                <p data-en="Passionately solving complex problems. Experienced in Java, Python, and C++. Competed in CodeSprint (6th Place)." data-fr="Passionné par la résolution de problèmes complexes. Expérimenté en Java, Python et C++. 6ème place à CodeSprint.">Passionately solving complex problems. Experienced in Java, Python, and C++. Competed in CodeSprint (6th Place) and constantly refining my technical expertise.</p>
             </div>
             <div class="card">
                 <i class="fas fa-globe-europe"></i>
-                <h3>Languages</h3>
-                <p>Native English & Maltese. Proficient in French (B2/C1) with immersive internship experience in France. Currently exploring Japanese.</p>
+                <h3 data-en="Languages" data-fr="Langues">Languages</h3>
+                <p data-en="Native English & Maltese. Proficient in French (B2/C1) with immersive internship experience in France." data-fr="Anglais et Maltais natif. Compétent en Français (B2/C1) avec un stage immersif en France.">Native English & Maltese. Proficient in French (B2/C1) with immersive internship experience in France. Currently exploring Japanese.</p>
             </div>
             <div class="card">
                 <i class="fas fa-swimmer"></i>
-                <h3>Swimming</h3>
-                <p>Competitive sprinter in the SW Elite group. Swimming instills discipline and resilience, traits I carry into my professional work.</p>
+                <h3 data-en="Swimming" data-fr="Natation">Swimming</h3>
+                <p data-en="Competitive sprinter in the SW Elite group. Swimming instills discipline and resilience." data-fr="Sprinter compétitif dans le groupe SW Elite. La natation inculque discipline et résilience.">Competitive sprinter in the SW Elite group. Swimming instills discipline and resilience, traits I carry into my professional work.</p>
             </div>
         </div>
     </section>
 
     <!-- Experience Timeline -->
     <section id="experience">
-        <h2 class="section-title"><span>Work Experience</span></h2>
+        <h2 class="section-title"><span data-en="Work Experience" data-fr="Expérience">Work Experience</span></h2>
         <div class="timeline">
             <!-- Job 1 -->
             <div class="container left">
                 <div class="content">
-                    <h3>Swimming Instructor</h3>
+                    <h3 data-en="Swimming Instructor" data-fr="Moniteur de Natation">Swimming Instructor</h3>
                     <h4 style="color: var(--primary);">Swimming Workshop</h4>
-                    <small>April 2024 - Current</small>
-                    <p style="margin-top: 10px;">Teaching children fundamental swimming techniques. Requires patience, clear communication, and adaptability.</p>
+                    <small data-en="April 2024 - Current" data-fr="Avril 2024 - Présent">April 2024 - Current</small>
+                    <p style="margin-top: 10px;" data-en="Teaching children fundamental swimming techniques. Requires patience and adaptability." data-fr="Enseignement des techniques de base de natation aux enfants.">Teaching children fundamental swimming techniques. Requires patience, clear communication, and adaptability.</p>
                 </div>
             </div>
             <!-- Job 2 -->
@@ -422,17 +519,17 @@
                 <div class="content">
                     <h3>IT Intern</h3>
                     <h4 style="color: var(--primary);">Ministry for the Environment</h4>
-                    <small>July 2023 - Sept 2023</small>
-                    <p style="margin-top: 10px;">Hardware maintenance, server setup, and infrastructure management. Gained hands-on experience with enterprise IT systems.</p>
+                    <small data-en="July 2023 - Sept 2023" data-fr="Juillet 2023 - Sept 2023">July 2023 - Sept 2023</small>
+                    <p style="margin-top: 10px;" data-en="Hardware maintenance, server setup, and infrastructure management." data-fr="Maintenance matérielle, configuration de serveurs et gestion d'infrastructure IT.">Hardware maintenance, server setup, and infrastructure management. Gained hands-on experience with enterprise IT systems.</p>
                 </div>
             </div>
             <!-- Job 3 -->
             <div class="container left">
                 <div class="content">
-                    <h3>Programme Facilitator</h3>
+                    <h3 data-en="Programme Facilitator" data-fr="Animateur de Programme">Programme Facilitator</h3>
                     <h4 style="color: var(--primary);">JA Malta</h4>
-                    <small>July 2022 - Aug 2022</small>
-                    <p style="margin-top: 10px;">Delivered educational programs on careers and economics to children, fostering early financial literacy.</p>
+                    <small data-en="July 2022 - Aug 2022" data-fr="Juillet 2022 - Août 2022">July 2022 - Aug 2022</small>
+                    <p style="margin-top: 10px;" data-en="Delivered educational programs on careers and economics to children." data-fr="Animation de programmes éducatifs sur les carrières et l'économie.">Delivered educational programs on careers and economics to children, fostering early financial literacy.</p>
                 </div>
             </div>
         </div>
@@ -440,32 +537,32 @@
     
     <!-- Education -->
     <section id="education">
-        <h2 class="section-title"><span>Education</span></h2>
+        <h2 class="section-title"><span data-en="Education" data-fr="Éducation">Education</span></h2>
         <div class="about-grid">
             <div class="card">
                 <h3>B.Sc. IT (AI)</h3>
                 <p style="color:var(--primary); font-weight:700;">University of Malta</p>
                 <p class="small" style="color:var(--text-gray); margin-bottom:10px; text-transform:uppercase; font-size:0.8rem; font-weight:600;">2023 - Current</p>
-                <p>Specializing in Artificial Intelligence technologies, algorithms, and advanced computing.</p>
+                <p data-en="Specializing in Artificial Intelligence technologies and algorithms." data-fr="Spécialisation en technologies et algorithmes d'Intelligence Artificielle.">Specializing in Artificial Intelligence technologies, algorithms, and advanced computing.</p>
             </div>
             <div class="card">
-                <h3>CIFC Internship</h3>
+                <h3 data-en="CIFC Internship" data-fr="Stage CIFC">CIFC Internship</h3>
                 <p style="color:var(--primary); font-weight:700;">AMICIF, France</p>
                 <p class="small" style="color:var(--text-gray); margin-bottom:10px; text-transform:uppercase; font-size:0.8rem; font-weight:600;">July 2024</p>
-                <p>Intensive French cultural program involving public speaking, acting, and total immersion.</p>
+                <p data-en="Intensive French cultural program involving public speaking." data-fr="Programme culturel français intensif incluant l'art oratoire.">Intensive French cultural program involving public speaking, acting, and total immersion.</p>
             </div>
             <div class="card">
                 <h3>Sixth Form</h3>
                 <p style="color:var(--primary); font-weight:700;">St. Martin's College</p>
                 <p class="small" style="color:var(--text-gray); margin-bottom:10px; text-transform:uppercase; font-size:0.8rem; font-weight:600;">2021 - 2023</p>
-                <p>A-Levels: Pure Mathematics (A), Computing (A). <br>Intermediates: French (A), Marketing (A).</p>
+                <p>A-Levels: Pure Mathematics (A), Computing (A). <br>Intermediates: French (A), Marketing (A), Environmental Science (A).</p>
             </div>
         </div>
     </section>
 
     <!-- Skills -->
     <section id="skills" style="background: rgba(255,255,255,0.02);">
-        <h2 class="section-title"><span>Technical Skills</span></h2>
+        <h2 class="section-title"><span data-en="Technical Skills" data-fr="Compétences">Technical Skills</span></h2>
         <div class="skills-container">
             <span class="skill-tag">Java</span>
             <span class="skill-tag">Python</span>
@@ -477,33 +574,33 @@
             <span class="skill-tag">Hardware Repair</span>
         </div>
         
-        <h2 class="section-title" style="margin-top: 4rem;"><span>Languages</span></h2>
+        <h2 class="section-title" style="margin-top: 4rem;"><span data-en="Languages" data-fr="Langues">Languages</span></h2>
         <div class="skills-container">
-            <span class="skill-tag">English (Native)</span>
-            <span class="skill-tag">Maltese (Native)</span>
-            <span class="skill-tag">French (B2/C1)</span>
-            <span class="skill-tag">Japanese (Interm.)</span>
-            <span class="skill-tag">Italian (Basic)</span>
+            <span class="skill-tag" data-en="English (Native)" data-fr="Anglais (Natif)">English (Native)</span>
+            <span class="skill-tag" data-en="Maltese (Native)" data-fr="Maltais (Natif)">Maltese (Native)</span>
+            <span class="skill-tag" data-en="French (B2/C1)" data-fr="Français (B2/C1)">French (B2/C1)</span>
+            <span class="skill-tag" data-en="Japanese (Interm.)" data-fr="Japonais (Interm.)">Japanese (Interm.)</span>
+            <span class="skill-tag" data-en="Italian (Basic)" data-fr="Italien (Base)">Italian (Basic)</span>
         </div>
     </section>
 
     <!-- Awards -->
     <section id="awards">
-        <h2 class="section-title"><span>Honours</span></h2>
+        <h2 class="section-title"><span data-en="Honours" data-fr="Distinctions">Honours</span></h2>
         <div class="awards-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
             <div class="card" style="text-align: center;">
                 <i class="fas fa-trophy"></i>
                 <h3>CodeSprint</h3>
-                <p>6th Place (2020)</p>
+                <p data-en="6th Place (2020)" data-fr="6ème Place (2020)">6th Place (2020)</p>
             </div>
             <div class="card" style="text-align: center;">
                 <i class="fas fa-medal"></i>
-                <h3>Company Programme</h3>
-                <p>1st Runner Up (2022)</p>
+                <h3 data-en="Company Programme" data-fr="Programme Entreprise">Company Programme</h3>
+                <p data-en="1st Runner Up (2022)" data-fr="2ème Place (2022)">1st Runner Up (2022)</p>
             </div>
             <div class="card" style="text-align: center;">
                 <i class="fas fa-leaf"></i>
-                <h3>Green Entr. Award</h3>
+                <h3 data-en="Green Entr. Award" data-fr="Prix Entr. Verte">Green Entr. Award</h3>
                 <p>JA Malta (2022)</p>
             </div>
         </div>
@@ -511,8 +608,8 @@
 
     <!-- Contact -->
     <footer id="contact">
-        <h2 style="font-family: 'Montserrat', sans-serif; color: var(--primary);">Let's Connect</h2>
-        <p style="color: var(--text-gray); margin-bottom: 2rem;">Open for collaboration and new opportunities.</p>
+        <h2 style="font-family: 'Montserrat', sans-serif; color: var(--primary);" data-en="Let's Connect" data-fr="Contactez-moi">Let's Connect</h2>
+        <p style="color: var(--text-gray); margin-bottom: 2rem;" data-en="Open for collaboration and new opportunities." data-fr="Ouvert aux collaborations et nouvelles opportunités.">Open for collaboration and new opportunities.</p>
         
         <div style="margin: 2rem 0; font-size: 1.1rem; display: flex; flex-direction: column; gap: 1rem; align-items: center;">
             <div style="display: flex; align-items: center; gap: 10px;">
@@ -537,5 +634,31 @@
         <p style="margin-top: 4rem; font-size: 0.8rem; color: var(--text-gray); opacity: 0.5;">© 2025 Daniel Pace.</p>
     </footer>
 
+    <script>
+        // Theme Toggle Logic
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            body.setAttribute('data-theme', newTheme);
+            themeToggle.classList.toggle('active-light');
+        });
+
+        // Language Toggle Logic
+        const langToggle = document.getElementById('langToggle');
+        const translatable = document.querySelectorAll('[data-en]');
+
+        langToggle.addEventListener('click', () => {
+            langToggle.classList.toggle('active-fr');
+            const isFrench = langToggle.classList.contains('active-fr');
+            
+            translatable.forEach(el => {
+                el.innerText = isFrench ? el.getAttribute('data-fr') : el.getAttribute('data-en');
+            });
+        });
+    </script>
 </body>
 </html>
