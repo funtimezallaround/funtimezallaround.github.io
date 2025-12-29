@@ -323,18 +323,24 @@
             width: 50%;
         }
 
+        /* The Diamond Marker - Centering Fix */
         .container::after {
             content: '';
             position: absolute;
-            width: 20px;
-            height: 20px;
-            right: -10px;
+            width: 14px;
+            height: 14px;
             background-color: var(--bg-dark);
-            border: 4px solid var(--primary);
-            top: 20px;
-            border-radius: 0;
-            z-index: 1;
-            transform: rotate(45deg);
+            border: 3px solid var(--primary);
+            top: 32px; /* Aligns with the first line of text */
+            z-index: 10;
+            /* This forces the diamond to center exactly on the container edge (the 50% line) */
+            left: 100%; 
+            transform: translate(-50%, 0) rotate(45deg);
+        }
+        
+        /* For right-side containers, move the anchor to the left edge */
+        .right::after {
+            left: 0%;
         }
 
         .left { left: 0; }
@@ -416,7 +422,7 @@
             .nav-right { flex-direction: column-reverse; gap: 1rem; align-items: flex-end; }
             .nav-links { display: none; }
         }
-
+        
         @media screen and (max-width: 768px) {
             .hero h1 { font-size: 2.8rem; }
             .timeline::after { left: 31px; }
@@ -425,6 +431,28 @@
             .left::after, .right::after { left: 21px; }
             .right { left: 0%; }
             .about-grid { grid-template-columns: 1fr; }
+
+            .hero h1 { font-size: 2.8rem; }
+            .section-title { font-size: 1.8rem; }
+            
+            .timeline::after {
+                left: 31px;
+                margin-left: 0;
+            }
+            
+            .container {
+                width: 100%;
+                padding-left: 60px;
+                padding-right: 20px;
+            }
+            
+            /* Center diamond on the 31px line for mobile */
+            .container::after {
+                left: 31px !important;
+                transform: translate(-50%, 0) rotate(45deg) !important;
+            }
+            
+            .right { left: 0%; }
         }
 
         @media screen and (max-width: 480px) {
