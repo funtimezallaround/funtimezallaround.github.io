@@ -331,23 +331,45 @@
             height: 14px;
             background-color: var(--bg-dark);
             border: 3px solid var(--primary);
-            top: 32px; /* Aligns with the first line of text */
+            top: 32px; 
             z-index: 10;
-            /* This forces the diamond to center exactly on the container edge (the 50% line) */
             left: 100%; 
             transform: translate(-50%, 0) rotate(45deg);
         }
         
-        /* For right-side containers, move the anchor to the left edge */
+        /* Adjust diamond for right side */
         .right::after {
             left: 0%;
         }
 
         .left { left: 0; }
         .right { left: 50%; }
-        .left::before { content: " "; height: 0; position: absolute; top: 22px; width: 0; z-index: 1; right: 30px; border: medium solid white; border-width: 10px 0 10px 10px; border-color: transparent transparent transparent var(--bg-card); }
-        .right::before { content: " "; height: 0; position: absolute; top: 22px; width: 0; z-index: 1; left: 30px; border: medium solid white; border-width: 10px 10px 10px 0; border-color: transparent var(--bg-card) transparent transparent; }
-        .right::after { left: -10px; }
+
+        /* Arrows */
+        .left::before { 
+            content: " "; 
+            height: 0; 
+            position: absolute; 
+            top: 22px; 
+            width: 0; 
+            z-index: 1; 
+            right: 30px; 
+            border: medium solid white; 
+            border-width: 10px 0 10px 10px; 
+            border-color: transparent transparent transparent var(--bg-card); 
+        }
+        .right::before { 
+            content: " "; 
+            height: 0; 
+            position: absolute; 
+            top: 22px; 
+            width: 0; 
+            z-index: 1; 
+            left: 30px; 
+            border: medium solid white; 
+            border-width: 10px 10px 10px 0; 
+            border-color: transparent var(--bg-card) transparent transparent; 
+        }
 
         .content {
             padding: 25px;
@@ -425,14 +447,6 @@
         
         @media screen and (max-width: 768px) {
             .hero h1 { font-size: 2.8rem; }
-            .timeline::after { left: 31px; }
-            .container { width: 100%; padding-left: 70px; padding-right: 25px; }
-            .container::before { left: 60px; border: medium solid white; border-width: 10px 10px 10px 0; border-color: transparent var(--bg-card) transparent transparent; }
-            .left::after, .right::after { left: 21px; }
-            .right { left: 0%; }
-            .about-grid { grid-template-columns: 1fr; }
-
-            .hero h1 { font-size: 2.8rem; }
             .section-title { font-size: 1.8rem; }
             
             .timeline::after {
@@ -442,8 +456,15 @@
             
             .container {
                 width: 100%;
-                padding-left: 60px;
+                padding-left: 70px;
                 padding-right: 20px;
+                left: 0 !important;
+            }
+
+            .container::before {
+                left: 60px;
+                border-width: 10px 10px 10px 0;
+                border-color: transparent var(--bg-card) transparent transparent;
             }
             
             /* Center diamond on the 31px line for mobile */
@@ -451,14 +472,11 @@
                 left: 31px !important;
                 transform: translate(-50%, 0) rotate(45deg) !important;
             }
-            
-            .right { left: 0%; }
         }
 
         @media screen and (max-width: 480px) {
             .hero h1 { font-size: 2.2rem; }
             .section-title { font-size: 1.5rem; }
-            /* Specifically fix the French word "Compétences" */
             .section-title span { font-size: 0.9em; }
         }
     </style>
@@ -476,18 +494,15 @@
                 <li><a href="#education" data-en="Education" data-fr="Éducation">Education</a></li>
                 <li><a href="#skills" data-en="Skills" data-fr="Compétences">Skills</a></li>
                 <li><a href="#contact" data-en="Contact" data-fr="Contact">Contact</a></li>
-                <!-- CV Link with dynamic switching -->
                 <li><a href="Daniel-Pace-CV-2025-en.pdf" data-en-href="Daniel-Pace-CV-2025-en.pdf" data-fr-href="Daniel-Pace-CV-2025-fr.pdf" target="_blank" style="color: var(--primary); border: 1px solid var(--primary); padding: 5px 10px; border-radius: 2px;">CV</a></li>
             </ul>
 
             <div class="toggles-container">
-                <!-- Language Switcher -->
                 <div id="langToggle" class="pill-switch lang-pill" title="Toggle Language">
                     <div class="pill-slider"></div>
                     <span class="en-label">EN</span>
                     <span class="fr-label">FR</span>
                 </div>
-                <!-- Theme Switcher -->
                 <div id="themeToggle" class="pill-switch theme-pill" title="Toggle Theme">
                     <div class="pill-slider"></div>
                     <i class="fas fa-moon moon-icon"></i>
@@ -497,7 +512,6 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <header class="hero">
         <img src="profile.png" alt="Daniel Pace" class="hero-avatar">
         <h1>Daniel Pace</h1>
@@ -508,7 +522,6 @@
         </p>
         <div style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;">
             <a href="#contact" class="btn" data-en="Contact Me" data-fr="Contactez-moi">Contact Me</a>
-           <!-- Hero CV Link with dynamic switching -->
             <a href="Daniel-Pace-CV-2025-en.pdf" data-en-href="Daniel-Pace-CV-2025-en.pdf" data-fr-href="Daniel-Pace-CV-2025-fr.pdf" target="_blank" class="btn btn-outline">
                 <i class="fas fa-file-alt" style="margin-right: 8px;"></i><span data-en="Download CV" data-fr="Télécharger CV">Download CV</span>
             </a>
@@ -518,7 +531,6 @@
         </div>
     </header>
 
-    <!-- About / Hobbies -->
     <section id="about">
         <h2 class="section-title"><span data-en="About Me" data-fr="À Propos">About Me</span></h2>
         <div class="about-grid">
@@ -540,11 +552,9 @@
         </div>
     </section>
 
-    <!-- Experience Timeline -->
     <section id="experience">
         <h2 class="section-title"><span data-en="Work Experience" data-fr="Expérience">Work Experience</span></h2>
         <div class="timeline">
-            <!-- Job 1 -->
             <div class="container left">
                 <div class="content">
                     <h3 data-en="Swimming Instructor" data-fr="Moniteur de Natation">Swimming Instructor</h3>
@@ -553,7 +563,6 @@
                     <p style="margin-top: 10px;" data-en="Teaching children fundamental swimming techniques. Requires patience and adaptability." data-fr="Enseignement des techniques de base de natation aux enfants.">Teaching children fundamental swimming techniques. Requires patience, clear communication, and adaptability.</p>
                 </div>
             </div>
-            <!-- Job 2 -->
             <div class="container right">
                 <div class="content">
                     <h3>IT Intern</h3>
@@ -562,7 +571,6 @@
                     <p style="margin-top: 10px;" data-en="Hardware maintenance, server setup, and infrastructure management." data-fr="Maintenance matérielle, configuration de serveurs et gestion d'infrastructure IT.">Hardware maintenance, server setup, and infrastructure management. Gained hands-on experience with enterprise IT systems.</p>
                 </div>
             </div>
-            <!-- Job 3 -->
             <div class="container left">
                 <div class="content">
                     <h3 data-en="Programme Facilitator" data-fr="Animateur de Programme">Programme Facilitator</h3>
@@ -574,7 +582,6 @@
         </div>
     </section>
     
-    <!-- Education -->
     <section id="education">
         <h2 class="section-title"><span data-en="Education" data-fr="Éducation">Education</span></h2>
         <div class="about-grid">
@@ -599,7 +606,6 @@
         </div>
     </section>
 
-    <!-- Skills -->
     <section id="skills" style="background: rgba(255,255,255,0.02);">
         <h2 class="section-title"><span data-en="Technical Skills" data-fr="Compétences">Technical Skills</span></h2>
         <div class="skills-container">
@@ -623,10 +629,9 @@
         </div>
     </section>
 
-    <!-- Awards -->
     <section id="awards">
         <h2 class="section-title"><span data-en="Honours" data-fr="Distinctions">Honours</span></h2>
-        <div class="awards-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
             <div class="card" style="text-align: center;">
                 <i class="fas fa-trophy"></i>
                 <h3>CodeSprint</h3>
@@ -645,7 +650,6 @@
         </div>
     </section>
 
-    <!-- Contact -->
     <footer id="contact">
         <h2 style="font-family: 'Montserrat', sans-serif; color: var(--primary);" data-en="Let's Connect" data-fr="Contactez-moi">Let's Connect</h2>
         <p style="color: var(--text-gray); margin-bottom: 2rem;" data-en="Open for collaboration and new opportunities." data-fr="Ouvert aux collaborations et nouvelles opportunités.">Open for collaboration and new opportunities.</p>
